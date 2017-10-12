@@ -2,8 +2,11 @@
   "name": "event-calender",
   "version": "0.0.0",
   "private": true,
+  "author": "Md Iktiar Rahman. iktiar2002@gmail.com",
+  "license": "ISC",
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "test": "mocha"
   },
   "dependencies": {
     "body-parser": "~1.18.2",
