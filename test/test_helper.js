@@ -4,12 +4,12 @@ mongoose.Promise = global.Promise; //https://stackoverflow.com/questions/3813844
 
 // using promises
 mongoose.connect('mongodb://localhost/events_test', { 
-		useMongoClient: true,
-		} ).then( () => { 
-   			console.log('connection ok..')
-  			/** ready to use. The `mongoose.connect()` promise resolves to undefined. */ 
-		},
-  		err => { console.warn('Warning', error);
-		/** handle initial connection error */ 
-	}
+	useMongoClient: true,
+} ).then( () => { 
+	console.log('connection ok..')
+	/** ready to use. The `mongoose.connect()` promise resolves to undefined. */ 
+},
+err => { console.warn('Warning', error);
+/** handle initial connection error */ 
+}
 );

@@ -1,18 +1,20 @@
 {
-  "name": "event-calender",
-  "version": "0.0.0",
-  "private": true,
+  "name": "Event-calendar-with-realtime-events",
+  "version": "1.0.0",
   "author": "Md Iktiar Rahman. iktiar2002@gmail.com",
   "license": "ISC",
   "scripts": {
-    "start": "nodemon ./bin/www -w ./",
     "test": "mocha"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iktiar/Event-Calendar"
+  },
   "dependencies": {
-    "body-parser": "~1.18.2",
+    "body-parser": "^1.9.0",
+    "express": "^4.9.8",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
-    "express": "~4.15.5",
     "hjs": "~0.0.6",
     "less-middleware": "~2.2.1",
     "mocha": "^4.0.1",
@@ -20,6 +22,7 @@
     "mongoose": "^4.12.1",
     "morgan": "~1.9.0",
     "nodemon": "^1.12.1",
-    "serve-favicon": "~2.4.5"
+    "serve-favicon": "~2.4.5",
+    "socket.io": "^2.0.3"
   }
 }
