@@ -7,7 +7,7 @@ Event Calendar using MEAN stack
 
 2. Install node packages, run follwoing from project folder(folder with  'package.json' file):
    > npm install
-3. Insall Bower packages   
+3. Install Bower packages   
    > bower install  
     1. if following message come ‘Unable to find a suitable version for angular..’, choose option 3 (angular#~1.4.x)
 
@@ -27,3 +27,5 @@ Event Calendar using MEAN stack
 
 3. now click on any date box to add Event, and click on ‘event’ in date box to edit event.
    
+#### test case run, from project folder, terminal run following.
+1. npm run test
