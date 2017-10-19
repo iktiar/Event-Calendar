@@ -1,38 +1,38 @@
 <div>
     <form class="form-horizontal" role="form" ng-submit="save()">
-        <div class="form-group" ng-if="newTicket._id"> 
+        <div class="form-group" ng-if="event._id"> 
             <label  class="col-sm-2 control-label"><u>Edit event</u></label>
         </div>
-        <div class="form-group" ng-if="!newTicket._id"> 
+        <div class="form-group" ng-if="!event._id"> 
             <label  class="col-sm-2 control-label"><u>Create event</u></label>
         </div>     
         <div class="form-group">
             <label for="inputTitle" class="col-sm-2 control-label">Title</label>
 
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputTitle" placeholder="Title"  ng-model="newTicket.title"/>
+                <input type="text" class="form-control" id="inputTitle" placeholder="Title"  ng-model="event.title"/>
             </div>
         </div>
         <div class="form-group">
             <label for="inputDesc" class="col-sm-2 control-label">Description</label>
 
             <div class="col-sm-10">
-                <textarea class="form-control" rows="3" id="inputDesc" placeholder="Description" ng-model="newTicket.body"></textarea>
+                <textarea class="form-control" rows="3" id="inputDesc" placeholder="Description" ng-model="event.body"></textarea>
             </div>
         </div>
-        <div class="form-group" ng-if="newTicket._id"> 
-            <div class=" control-label">Event date: {{newTicket.start | date:'medium'}}</div>
-            <div class=" control-label">Event created: {{newTicket.created | date:'medium'}}</div>
-            <div class=" control-label">Event updated: {{newTicket.updated | date:'medium'}}</div>
+        <div class="form-group" ng-if="event._id"> 
+            <div class=" control-label">Event date: {{event.start | date:'medium'}}</div>
+            <div class=" control-label">Event created: {{event.created | date:'medium'}}</div>
+            <div class=" control-label">Event updated: {{event.updated | date:'medium'}}</div>
             
         </div>
         
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button ng-show="newTicket._id" type="button" ng-click="update(newTicket)" class="btn btn-default btn-primary">Update</button>
-                <button  ng-show="!newTicket._id" type="button" ng-click="save(newTicket)" class="btn btn-default btn-primary">Submit</button>
+                <button ng-show="event._id" type="button" ng-click="update(event)" class="btn btn-default btn-primary">Update</button>
+                <button  ng-show="!event._id" type="button" ng-click="save(event)" class="btn btn-default btn-primary">Submit</button>
                 <button  type="button" ng-click="cancel()" class="btn btn-default">Cancel</button>
-                <button ng-show="newTicket._id" type="button" ng-click="delete(newTicket)" class="btn btn-default btn-primary btn-danger">Delete</button>
+                <button ng-show="event._id" type="button" ng-click="delete(event)" class="btn btn-default btn-primary btn-danger">Delete</button>
                 
             </div>
         </div>

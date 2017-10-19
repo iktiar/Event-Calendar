@@ -62,9 +62,9 @@ angular.module('realtimeData', ['ngRoute', 'realtimeData.data', 'ui.calendar'])
 .controller('CreateCtrl', ['$scope', '$location', '$routeParams', 'Events', function ($scope, $location, $routeParams, Events) {
     'use strict';
 
-    $scope.save = function (newTicket) {
-        newTicket.start = $routeParams.event_date;
-        Events.save(newTicket);
+    $scope.save = function (newEvent) {
+        newEvent.start = $routeParams.event_date;
+        Events.save(newEvent);
         $location.path('/');
     };
     $scope.cancel = function () {
@@ -75,21 +75,20 @@ angular.module('realtimeData', ['ngRoute', 'realtimeData.data', 'ui.calendar'])
 .controller('EditCtrl', ['$scope', '$location', '$routeParams', 'Events', function ($scope, $location, $routeParams,  Events) {
     'use strict';
         //get event by eventid         
-        $scope.newTicket = Events.get($routeParams.id); 
+        $scope.event = Events.get($routeParams.id); 
 
-        $scope.save = function (newTicket) {
-            Events.save(newTicket);
+        $scope.save = function (Event) {
+            Events.save(Event);
             $location.path('/');
         };
-        $scope.update = function (newTicket) {
-            console.log('update...');
-            Events.update($routeParams.id,newTicket);
+        $scope.update = function (Event) {
+            Events.update($routeParams.id,Event);
             $location.path('/');
         };
-        $scope.delete = function (newTicket) {
+        $scope.delete = function (Event) {
            if (confirm("Are you sure?")) {
                  //delete event by eventid         
-                 $scope.newTicket = Events.delete($routeParams.id); 
+                 Events.delete($routeParams.id); 
                  alert("Event deleted successfully");
                  $location.path('/');
              }

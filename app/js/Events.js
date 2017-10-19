@@ -10,11 +10,11 @@ angular.module('realtimeData.data', ['ngResource']).factory('Events', ['$resourc
     );
     
     return {
-        save: function (newTicket) {
-            server.save(newTicket);
+        save: function (Event) {
+            server.save(Event);
         },
-        update: function(id, newTicket) {
-           return server.update({id:id}, newTicket);
+        update: function(id, Event) {
+           return server.update({id:id}, Event);
            
        },
        query: function () {
