@@ -1,39 +1,29 @@
-# Event-Calendar
+# Event-Calendar with realtime update
 Event Calendar using MEAN stack
 
-##Rest API
-1. get events by Month(month number)
-api: events/month/{monthNumber}
-example: http://localhost:3000/events/month/9
-result: 
-        [
-			{
-			"_id": "59df94bb2cebf123fbbe105e",
-			"title": "demo event 4",
-			"body": "demo body 4",
-			"__v": 0,
-			"updated": "2017-10-12T16:13:47.367Z",
-			"created": "2017-10-12T16:13:47.367Z",
-			},
-			{
-			"_id": "59df96716fcfd62429c09064",
-			"title": "demo event test",
-			"body": "demo body for test",
-			"__v": 0,
-			"updated": "2017-10-12T16:21:05.957Z",
-			"created": "2017-10-12T16:21:05.957Z",
-			}
-		]
-2. get events by eventId
-   api: /events/{eventId}
-   example: http://localhost:3000/events/59df94bb2cebf123fbbe105e	
-   result:
-          {
-			"_id": "59df94bb2cebf123fbbe105e",
-			"title": "demo event 4",
-			"body": "demo body 4",
-			"__v": 0,
-			"updated": "2017-10-12T16:13:47.367Z",
-			"created": "2017-10-12T16:13:47.367Z",
-			"event_date": "2017-10-12T16:13:47.367Z"
-		}
+## Locally setup and run event calendar:
+1. clone to locally by :
+   git clone https://github.com/iktiar/Event-Calendar.git
+
+2. Install node packages, run follwoing from project folder(folder with  'package.json' file):
+   > npm install
+3. Insall Bower packages   
+   > bower install  
+    1. if following message come ‘Unable to find a suitable version for angular..’, choose option 3 (angular#~1.4.x)
+
+4. prerequisite:
+   1. node , npm 
+   2. database: mongodb locally installed and running. (my local version v3.4.5)
+      Run the following in your Terminal to check , this should return at least 1: 
+          > ps -ef | grep mongod | grep -v grep | wc -l | tr -d ' '
+   3. modern web browser.
+ 
+### run application on port:3000, please make sure that port is free 
+ 1. From ‘server’ folder,run in terminal: 
+ 	> node index.js
+ 2. go to http://localhost:3000     
+        [you should see ‘db connection ok!’ in terminal,
+        if  message ’error in db connection!’ shown, check DB is running, or db connection url in ‘database/models/’]
+
+3. now click on any date box to add Event, and click on ‘event’ in date box to edit event.
+   
