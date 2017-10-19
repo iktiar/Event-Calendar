@@ -4,10 +4,7 @@ angular.module('realtimeData', ['ngRoute', 'realtimeData.data', 'ui.calendar'])
         'use strict';
         
         const date = new Date();
-        const d = date.getDate();
-        const month = date.getMonth();
-        const y = date.getFullYear();
-
+        
         $scope.events = Events.query();
         
         /* event sources for calendar*/
@@ -22,29 +19,40 @@ angular.module('realtimeData', ['ngRoute', 'realtimeData.data', 'ui.calendar'])
         /* config object */
         $scope.uiConfig = {
           calendar:{
-            height: 450,
+            height: 500,
             editable: true,
             header:{
-              //left: 'month basicWeek basicDay agendaWeek agendaDay',
+              left: 'month agendaDay',
               //center: 'title',
               right: 'today prev,next'
           },
           dayClick: function(date, jsEvent, view) { 
-                //console.log('Day clicking'+event);
-                console.log('Clicked on: ' + date.format('YYYY-MM-DD'));
                 let event_date = date.format('YYYY-MM-DD');
                 $location.path( "/new/"+event_date);
                 
             },
             viewRender: function(view, element) {
-               // console.log("View Changed: ", view.start, view.end);
+               //console.log("View Changed: ", view.start, view.end);
+               let startDate = view.start;
+               let endDate = view.end;
+               
+               $http({
+                      method : "GET",
+                      url : "/events/"+startDate+"/"+endDate
+                    }).then(function Success(response) {
+                            $scope.events1 = response.data;
+                            /* event sources for calendar*/
+                            $scope.eventSources = [$scope.events1];
+                        }, function Error(response) {
+                            
+                        });
 
            },
            eventClick: $scope.alertOnEventClick,
            eventDrop: $scope.alertOnDrop,
            eventResize: $scope.alertOnResize
-       }
-   };
+          }
+        };
 
         //catch event from server, update accordingly
         socketio.on('event-post', function (msg) {

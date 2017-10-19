@@ -26,13 +26,9 @@ const Event  = require('../database/models/events')
 
 
 /* GET event by Month number(starts from 0) */
-router.get('/month/:monthNo', function(req, res, next) {
+router.get('/:startDate/:endDate', function(req, res, next) {
 
-  var year = moment().format('YYYY');
-  const startOfMonth = moment([year, req.params.monthNo]).startOf('month').format('YYYY-MM-DD hh:mm');
-  const endOfMonth   = moment([year, req.params.monthNo]).endOf('month').format('YYYY-MM-DD hh:mm');
-
-  mongoose.model('events').find({"created" : {"$gte": startOfMonth,  "$lt":endOfMonth }} , function(err,events) {
+  mongoose.model('events').find({"start" : {"$gte": req.params.startDate,  "$lt":req.params.endDate }} , function(err,events) {
 
     res.send(events);
   });  
