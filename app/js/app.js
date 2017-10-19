@@ -7,7 +7,7 @@ angular.module('realtimeData', ['ngRoute', 'realtimeData.data', 'ui.calendar'])
         const d = date.getDate();
         const month = date.getMonth();
         const y = date.getFullYear();
-        
+
         $scope.events = Events.query();
         
         /* event sources for calendar*/
@@ -38,19 +38,24 @@ angular.module('realtimeData', ['ngRoute', 'realtimeData.data', 'ui.calendar'])
             },
             viewRender: function(view, element) {
                // console.log("View Changed: ", view.start, view.end);
-               
+
            },
            eventClick: $scope.alertOnEventClick,
            eventDrop: $scope.alertOnDrop,
            eventResize: $scope.alertOnResize
        }
    };
-   
+
         //catch event from server, update accordingly
-        socketio.on('ticket', function (msg) {
+        socketio.on('event-post', function (msg) {
             $scope.events.push(msg);
         });
-        socketio.on('ticket-delete', function (msg) {
+        socketio.on('event-update', function (msg) {
+            //remove existing event, for duplicate add issue.
+            $scope.events.splice($scope.events.findIndex(function(val){ return val._id == msg._id}), 1);
+            $scope.events.push(msg);
+        });
+        socketio.on('event-delete', function (msg) {
             $scope.events.splice($scope.events.findIndex(function(val){ return val._id == msg}), 1);
         });
     }])
@@ -88,7 +93,7 @@ angular.module('realtimeData', ['ngRoute', 'realtimeData.data', 'ui.calendar'])
                  alert("Event deleted successfully");
                  $location.path('/');
              }
-             
+
          };
          $scope.cancel = function () {
             $location.path('/');
@@ -97,7 +102,7 @@ angular.module('realtimeData', ['ngRoute', 'realtimeData.data', 'ui.calendar'])
     }])
 .config(['$routeProvider', function ($routeProvider) {
     'use strict';
-    
+
     $routeProvider
     .when('/', {
         controller: 'DashboardCtrl',

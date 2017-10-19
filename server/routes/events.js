@@ -85,7 +85,7 @@ router.post('/', jsonParser, function(req, res, next) {
 
       //get all events to send server.
       const io = req.app.get('socketio');
-      io.emit('ticket', req.body);
+      io.emit('event-post', req.body);
 
       res.send({message: 'Event created successfully.'});
     });
@@ -118,7 +118,7 @@ router.put('/:eventId', jsonParser, function(req, res, next) {
           }
           //broadcast update.
           const io = req.app.get('socketio');
-          io.emit('ticket', req.body);
+          io.emit('event-update', req.body);
           res.send({message: event.title+' Successfully updated '+event.body})
       });
     });  
@@ -135,7 +135,7 @@ router.delete('/:eventId', function(req, res, next) {
          }
         //broadcast update.
         const io = req.app.get('socketio');
-        io.emit('ticket-delete', event_obj);
+        io.emit('event-delete', event_obj);
 
         res.send({message: 'Successfully deleted'})
     });  
