@@ -1,10 +1,7 @@
 angular.module('realtimeData.data', ['ngResource']).factory('Events', ['$resource', function($resource) {
     'use strict';
     
-    let date = new Date();
-    let month = date.getMonth();
-    
-    let server = $resource('/events/:id', null, 
+    let resource = $resource('/events/:id', null, 
         {
             'update': { method:'PUT' }
         }
@@ -12,19 +9,19 @@ angular.module('realtimeData.data', ['ngResource']).factory('Events', ['$resourc
     
     return {
         save: function (Event) {
-            server.save(Event);
+            resource.save(Event);
         },
         update: function(id, Event) {
-           return server.update({id:id}, Event);
+           return resource.update({id:id}, Event);
         },
         query: function () {
-            return server.query();
+            return resource.query();
         },
         get: function (id) {
-            return server.get({id:id});
+            return resource.get({id:id});
         },
         delete: function (id) {
-            return server.delete({id:id});
+            return resource.delete({id:id});
         }
     };
 }]);

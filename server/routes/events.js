@@ -1,11 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const moment = require('moment');
-
-
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
-const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 
 //mongoose db connection and promise.
@@ -24,37 +21,31 @@ err => {
 //load all models  
 const Event  = require('../database/models/events')
 
-
 /* GET event by Month number(starts from 0) */
 router.get('/:startDate/:endDate', function(req, res, next) {
-
-  mongoose.model('events').find({"start" : {"$gte": req.params.startDate,  "$lt":req.params.endDate }} , function(err,events) {
-
-    res.send(events);
+    mongoose.model('events').find({"start" : {"$gte": req.params.startDate,  "$lt":req.params.endDate }} , function(err,events) {
+        res.send(events);
   });  
 });
-
 
 /* GET events listing. */
 router.get('/',function(req, res, next) {
     mongoose.model('events').find(function(err,events) {
-    res.send(events);
+        res.send(events);
     });  
 });
-
 
 /* GET event by eventId. */
 router.get('/:eventId', function(req, res, next) {
     mongoose.model('events').findById(req.params.eventId, function(err,event) {
         // Handle the error using the Express error middleware
         if(err) {
-          console.error(err.stack)
+            console.error(err.stack)
         }
         //if resourece not found, raise error.
         if(!event) {
-          res.status(404).send({message: 'No resourece found'});
+            res.status(404).send({message: 'No resourece found'});
         }
-
         res.status(200).send(event);
     });  
 });
@@ -68,7 +59,7 @@ router.post('/', jsonParser, function(req, res, next) {
         res.status(400).send({message: 'Bad request'});
     }   
     //initiate new Event model
-    var newEvent = new Event();
+    let newEvent = new Event();
     newEvent.title = req.body.title;
     newEvent.body  = req.body.body;
     newEvent.start = moment(req.body.start).format('YYYY-MM-DD');
@@ -76,7 +67,7 @@ router.post('/', jsonParser, function(req, res, next) {
     newEvent.save( function(err) {
         // Handle the error using the Express error middleware
         if(err) {
-          console.error(err.stack)
+            console.error(err.stack)
         }
 
       //get all events to send server.

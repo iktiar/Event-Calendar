@@ -8,7 +8,7 @@ const io = require('socket.io')(http);
 
 //for static files
 app.use('/', express.static('../app/'));
-app.use('/bower_components', express.static('../bower_components/'));
+//app.use('/bower_components', express.static('../bower_components/'));
 
 //socket io set
 app.set('socketio', io); 
