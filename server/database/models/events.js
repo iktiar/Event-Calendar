@@ -6,7 +6,8 @@ const EventsSchema = new Schema({
 	body: String,
 	start: { type: Date, default: Date.now },
 	created: { type: Date, default: Date.now },
-	updated: { type: Date, default: Date.now }
+	updated: { type: Date, default: Date.now },
+	stick: {type: Boolean, default:true}
 
 }); 
 
