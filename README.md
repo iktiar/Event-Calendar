@@ -21,6 +21,7 @@ Rest API implemented in Backend in following
 
 |      HTTP   | API End point           | Description  |
 | ------------- |:-------------:| -----:|
+| GET     | /events/:startdate/:enddate | get events by date range|
 | GET     | /events | get all events|
 | POST    | /events | create new event |
 | GET     | /events/eventid  |  get event by event id |
