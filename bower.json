@@ -1,11 +1,10 @@
 {
-  "name": "demo-realtime-tickets",
+  "name": "Event calendar realtime events",
   "version": "0.0.0",
-  "homepage": "https://github.com/pairedprogrammers/demo-realtime-tickets",
   "authors": [
-    "Paul Welden <paul.j.welden@gmail.com>"
+    "Md Iktiar Rahman <iktiar2002@gmail.com>"
   ],
-  "license": "MIT",
+  "license": "ISC",
   "ignore": [
     "**/.*",
     "node_modules",
@@ -22,6 +21,7 @@
   "dependencies": {
     "angular-ui-calendar": "^1.0.2",
     "underscore": "^1.8.3",
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "bootstrap-timepicker": "^0.5.2"
   }
 }
