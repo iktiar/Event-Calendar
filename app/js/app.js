@@ -39,8 +39,8 @@ angular.module('eventCalendarRealtime', ['ngRoute', 'eventCalendarRealtime.data'
             eventClick: $scope.alertOnEventClick,
             eventDrop: $scope.alertOnDrop,
             eventResize: $scope.alertOnResize
- }
-};
+          }
+        };
 
         //catch event from server, update accordingly
         socketio.on('event-post', function (msg) {
@@ -88,7 +88,6 @@ angular.module('eventCalendarRealtime', ['ngRoute', 'eventCalendarRealtime.data'
                  alert("Event deleted successfully");
                  $location.path('/');
              }
-
          };
          $scope.cancel = function () {
             $location.path('/');

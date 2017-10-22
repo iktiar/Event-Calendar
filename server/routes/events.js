@@ -18,27 +18,15 @@ err => {
     console.log('error in db connection!')
 });
 
-//load all models  
+//load all requiered models  
 const Event  = require('../database/models/events')
 
 
-/* GET event by Start and End date*/
-/*
-router.get('/:startDate/:endDate', function(req, res, next) {
-    mongoose.model('events').find({"start" : {"$gte": req.params.startDate,  "$lt":req.params.endDate }} , function(err,events) {
-        res.send(events);
-  });  
-});
+/* GET event by eventId. 
+@eventId eventId, id of event in Mongodb
+
+returns event
 */
-
-/* GET events listing. */
-router.get('/',function(req, res, next) {
-    mongoose.model('events').find(function(err,events) {
-        res.send(events);
-    });  
-});
-
-/* GET event by eventId. */
 router.get('/:eventId', function(req, res, next) {
     mongoose.model('events').findById(req.params.eventId, function(err,event) {
         // Handle the error using the Express error middleware
@@ -53,7 +41,12 @@ router.get('/:eventId', function(req, res, next) {
     });  
 });
 
-/* Post event */
+/* Post event, to create new event.
+accepts valid post information for event, returns error for invalid post information.
+
+returns status of success/failure to create an event.
+also emits socketio for realtime update.
+*/
 router.post('/', jsonParser, function(req, res, next) {
     'use strict';
     //set model info from request body.
@@ -72,7 +65,6 @@ router.post('/', jsonParser, function(req, res, next) {
         if(err) {
             console.error(err.stack)
         }
-
       //get all events to send server.
       const io = req.app.get('socketio');
       io.emit('event-post', req.body);
@@ -81,7 +73,12 @@ router.post('/', jsonParser, function(req, res, next) {
     });
 });
 
-/* Update event by eventId*/
+/* Update event by eventId
+@eventId eventid to find event object.
+
+returns status of success/failure to update action.
+also emits socketio for realtime update.
+*/
 router.put('/:eventId', jsonParser, function(req, res, next) {
     'use strict'
     if(!req.params.eventId || !req.body.title || !req.body.body) {
@@ -114,7 +111,11 @@ router.put('/:eventId', jsonParser, function(req, res, next) {
     });  
 });
 
-/* Delete event by eventId. */
+/* Delete event by eventId. 
+@eventId eventid of the event in Mongodb.
+
+retuns status of success/failure of action.
+*/
 router.delete('/:eventId', function(req, res, next) {
     'use strict' 
     let event_obj = req.params.eventId;
@@ -129,6 +130,18 @@ router.delete('/:eventId', function(req, res, next) {
 
         res.send({message: 'Successfully deleted'})
     });  
+});
+
+
+/* GET events by Start and End date, can be used to get monthly events.
+@startDate dateformat [YYYY-MM-DD]
+@endDate dateformat  [YYYY-MM-DD]
+returns list of events in date range, in JSON format.
+*/
+router.get('/:startDate/:endDate', function(req, res, next) {
+    mongoose.model('events').find({"start" : {"$gte": req.params.startDate,  "$lt":req.params.endDate }} , function(err,events) {
+        res.send(events);
+  });  
 });
 
 
