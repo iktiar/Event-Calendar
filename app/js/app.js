@@ -32,7 +32,6 @@ angular.module('eventCalendarRealtime', ['ngRoute', 'eventCalendarRealtime.data'
 
             },
             viewRender: function(view, element) {
-                console.log("View Changed: ", view.start, view.end);
                  let startDate = view.start;
                  let endDate = view.end;
             },
@@ -78,7 +77,7 @@ angular.module('eventCalendarRealtime', ['ngRoute', 'eventCalendarRealtime.data'
             $location.path('/');
         };
         $scope.update = function (event) {
-            events.update($routeParams.id,Event);
+            events.update($routeParams.id,event);
             $location.path('/');
         };
         $scope.delete = function (event) {

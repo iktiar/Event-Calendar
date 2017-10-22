@@ -60,13 +60,15 @@ router.post('/', jsonParser, function(req, res, next) {
     newEvent.body  = req.body.body;
     newEvent.start = moment(req.body.start).format('YYYY-MM-DD');
 
-    newEvent.save( function(err) {
+    newEvent.save( function(err, newEvent) {
         // Handle the error using the Express error middleware
         if(err) {
             console.error(err.stack)
         }
       //get all events to send server.
       const io = req.app.get('socketio');
+      //put newly created event id from mongodb
+      req.body._id = newEvent._id;
       io.emit('event-post', req.body);
 
       res.send({message: 'Event created successfully.'});
@@ -142,6 +144,13 @@ router.get('/:startDate/:endDate', function(req, res, next) {
     mongoose.model('events').find({"start" : {"$gte": req.params.startDate,  "$lt":req.params.endDate }} , function(err,events) {
         res.send(events);
   });  
+});
+
+/* GET events listing. */
+router.get('/',function(req, res, next) {
+    mongoose.model('events').find(function(err,events) {
+        res.send(events);
+    });  
 });
 
 
