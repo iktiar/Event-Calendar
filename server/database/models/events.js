@@ -7,7 +7,7 @@ const EventsSchema = new Schema({
 	start: { type: Date, default: Date.now },
 	created: { type: Date, default: Date.now },
 	updated: { type: Date, default: Date.now },
-	stick: {type: Boolean, default:true}
+	stick: { type: Boolean, default: true } //each events needs to 'stick:true' to fix, ui calender render issue. 
 
 }); 
 

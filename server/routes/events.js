@@ -21,12 +21,15 @@ err => {
 //load all models  
 const Event  = require('../database/models/events')
 
-/* GET event by Month number(starts from 0) */
+
+/* GET event by Start and End date*/
+/*
 router.get('/:startDate/:endDate', function(req, res, next) {
     mongoose.model('events').find({"start" : {"$gte": req.params.startDate,  "$lt":req.params.endDate }} , function(err,events) {
         res.send(events);
   });  
 });
+*/
 
 /* GET events listing. */
 router.get('/',function(req, res, next) {

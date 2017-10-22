@@ -1,12 +1,11 @@
-angular.module('realtimeData', ['ngRoute', 'realtimeData.data', 'ui.calendar'])
-.controller('DashboardCtrl', ['$scope', 'Events', 'socketio', '$http', '$location', 
-    function ($scope, Events, socketio, $http, $location) {
+angular.module('eventCalendarRealtime', ['ngRoute', 'eventCalendarRealtime.data', 'ui.calendar'])
+.controller('DashboardCtrl', ['$scope', 'events', 'socketio', '$http', '$location', 
+    function ($scope, events, socketio, $http, $location) {
         'use strict';
         
         const date = new Date();
         
-        $scope.events = Events.query();
-        
+        $scope.events = events.query();
         /* event sources for calendar*/
         $scope.eventSources = [$scope.events];
 
@@ -22,37 +21,26 @@ angular.module('realtimeData', ['ngRoute', 'realtimeData.data', 'ui.calendar'])
             height: 500,
             editable: true,
             header:{
-              left: 'month agendaDay',
-              //center: 'title',
+              left: 'month agendaDay customButtons',
+              right: 'customButtons',
+              center: 'title',
               right: 'today prev,next'
-          },
-          dayClick: function(date, jsEvent, view) { 
+            },
+            dayClick: function(date, jsEvent, view) { 
                 let event_date = date.format('YYYY-MM-DD');
                 $location.path( "/new/"+event_date);
-                
+
             },
             viewRender: function(view, element) {
-               //console.log("View Changed: ", view.start, view.end);
-               let startDate = view.start;
-               let endDate = view.end;
-               
-               $http({
-                      method : "GET",
-                      url : "/events/"+startDate+"/"+endDate
-                    }).then(function Success(response) {
-                            $scope.events1 = response.data;
-                            /* event sources for calendar*/
-                            $scope.eventSources = [$scope.events1];
-                        }, function Error(response) {
-                            
-                        });
-
-           },
-           eventClick: $scope.alertOnEventClick,
-           eventDrop: $scope.alertOnDrop,
-           eventResize: $scope.alertOnResize
-          }
-        };
+                console.log("View Changed: ", view.start, view.end);
+                 let startDate = view.start;
+                 let endDate = view.end;
+            },
+            eventClick: $scope.alertOnEventClick,
+            eventDrop: $scope.alertOnDrop,
+            eventResize: $scope.alertOnResize
+ }
+};
 
         //catch event from server, update accordingly
         socketio.on('event-post', function (msg) {
@@ -67,12 +55,12 @@ angular.module('realtimeData', ['ngRoute', 'realtimeData.data', 'ui.calendar'])
             $scope.events.splice($scope.events.findIndex(function(val){ return val._id == msg}), 1);
         });
     }])
-.controller('CreateCtrl', ['$scope', '$location', '$routeParams', 'Events', function ($scope, $location, $routeParams, Events) {
+.controller('CreateCtrl', ['$scope', '$location', '$routeParams', 'events', function ($scope, $location, $routeParams, events) {
     'use strict';
 
     $scope.save = function (newEvent) {
         newEvent.start = $routeParams.event_date;
-        Events.save(newEvent);
+        events.save(newEvent);
         $location.path('/');
     };
     $scope.cancel = function () {
@@ -80,23 +68,23 @@ angular.module('realtimeData', ['ngRoute', 'realtimeData.data', 'ui.calendar'])
     };
 
 }])
-.controller('EditCtrl', ['$scope', '$location', '$routeParams', 'Events', function ($scope, $location, $routeParams,  Events) {
+.controller('EditCtrl', ['$scope', '$location', '$routeParams', 'events', function ($scope, $location, $routeParams,  events) {
     'use strict';
         //get event by eventid         
-        $scope.event = Events.get($routeParams.id); 
+        $scope.event = events.get($routeParams.id); 
 
-        $scope.save = function (Event) {
-            Events.save(Event);
+        $scope.save = function (event) {
+            events.save(event);
             $location.path('/');
         };
-        $scope.update = function (Event) {
-            Events.update($routeParams.id,Event);
+        $scope.update = function (event) {
+            events.update($routeParams.id,Event);
             $location.path('/');
         };
-        $scope.delete = function (Event) {
-           if (confirm("Are you sure?")) {
+        $scope.delete = function (event) {
+         if (confirm("Are you sure?")) {
                  //delete event by eventid         
-                 Events.delete($routeParams.id); 
+                 events.delete($routeParams.id); 
                  alert("Event deleted successfully");
                  $location.path('/');
              }
@@ -134,29 +122,3 @@ angular.module('realtimeData', ['ngRoute', 'realtimeData.data', 'ui.calendar'])
         return items.slice().reverse();
     };
 })
-    // From http://briantford.com/blog/angular-socket-io
-    .factory('socketio', ['$rootScope', function ($rootScope) {
-        'use strict';
-        
-        var socket = io.connect();
-        return {
-            on: function (eventName, callback) {
-                socket.on(eventName, function () {
-                    var args = arguments;
-                    $rootScope.$apply(function () {
-                        callback.apply(socket, args);
-                    });
-                });
-            },
-            emit: function (eventName, data, callback) {
-                socket.emit(eventName, data, function () {
-                    var args = arguments;
-                    $rootScope.$apply(function () {
-                        if (callback) {
-                            callback.apply(socket, args);
-                        }
-                    });
-                });
-            }
-        };
-    }]);

@@ -1,6 +1,7 @@
-angular.module('realtimeData.data', ['ngResource']).factory('Events', ['$resource', function($resource) {
+angular.module('eventCalendarRealtime.data', ['ngResource']).factory('events', ['$resource', function($resource) {
     'use strict';
     
+    //https://docs.angularjs.org/api/ngResource/service/$resource
     let resource = $resource('/events/:id', null, 
         {
             'update': { method:'PUT' }
