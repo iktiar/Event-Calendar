@@ -4,8 +4,16 @@ angular.module('eventCalendarRealtime', ['ngRoute', 'eventCalendarRealtime.data'
         'use strict';
         
         const date = new Date();
-        
-        $scope.events = events.query();
+       
+        $scope.events = [];
+        events.query().$promise.then( function(result)
+        {   // show only date, don't show event time, currently default time saved
+            // for all event, no need to show that. 
+            angular.forEach(result, function(value, key) {
+                value.start = moment(value.start).format('YYYY-MM-DD'); 
+                this.push(value);
+            },  $scope.events);
+        });
         /* event sources for calendar*/
         $scope.eventSources = [$scope.events];
 
@@ -46,6 +54,7 @@ angular.module('eventCalendarRealtime', ['ngRoute', 'eventCalendarRealtime.data'
             $scope.events.push(msg);
         });
         socketio.on('event-update', function (msg) {
+            msg.start = moment(msg.start).format('YYYY-MM-DD'); 
             //remove existing event, for duplicate add issue.
             $scope.events.splice($scope.events.findIndex(function(val){ return val._id == msg._id}), 1);
             $scope.events.push(msg);
